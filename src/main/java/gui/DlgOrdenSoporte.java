@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ClientInfoStatus;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool.ManagedBlocker;
 
@@ -363,7 +364,30 @@ public class DlgOrdenSoporte extends JDialog implements ActionListener {
 	}
 
 	void consultar() {
-
+		Integer nroOrden = Integer.parseInt(txtNroOrdenSoporte.getText());
+		EntityManager manager = JPAUtil.getEntityManager();
+		
+		try {
+			OrdenSoporte ordenSoporte = manager.find(OrdenSoporte.class, nroOrden);
+			
+			if(ordenSoporte == null) {
+				mensajeAdvertencia("Orden de soporte no encontrada");
+				return;
+			}
+			
+			txtDetalleIncidencia.setText(ordenSoporte.getDetalleIncidencia());
+			cboTecnicos.setSelectedItem(ordenSoporte.getTecnico());
+			cboClientes.setSelectedItem(ordenSoporte.getCliente());
+			txtMonto.setText(ordenSoporte.getMonto()+"");
+			txtFechaRegistro.setText(ordenSoporte.getFechaRegistro()+"");
+			
+			
+			
+			
+			
+		} finally {
+		
+		}
 	}
 
 	void modificar() {
